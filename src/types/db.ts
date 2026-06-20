@@ -70,6 +70,7 @@ export interface Recipe {
   type: RecipeType
   origin: RecipeOrigin
   category: string | null
+  description: string | null
   portion_label: PortionUnit
   base_portions: number
   prep_steps: string | null
