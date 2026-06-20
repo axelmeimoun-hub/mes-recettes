@@ -4,6 +4,26 @@ import { RecipeCard } from '../components/RecipeCard'
 import { SearchBar } from '../components/SearchBar'
 import { FilterChips } from '../components/FilterChips'
 
+// Ordre d'affichage souhaité pour les types (les autres suivent en alphabétique).
+const TYPE_ORDER = [
+  'entrée',
+  'plat',
+  'dessert',
+  'sauce',
+  'apéritif',
+  'cocktail',
+  'boisson',
+]
+
+function byTypeOrder(a: string, b: string): number {
+  const ia = TYPE_ORDER.indexOf(a)
+  const ib = TYPE_ORDER.indexOf(b)
+  if (ia === -1 && ib === -1) return a.localeCompare(b, 'fr')
+  if (ia === -1) return 1
+  if (ib === -1) return -1
+  return ia - ib
+}
+
 export function HomePage() {
   const { data, loading, error } = useRecipes()
   const [query, setQuery] = useState('')
@@ -19,8 +39,8 @@ export function HomePage() {
       if (r.origin) o.add(r.origin)
     }
     return {
-      typeOptions: [...t].sort(),
-      originOptions: [...o].sort(),
+      typeOptions: [...t].sort(byTypeOrder),
+      originOptions: [...o].sort((a, b) => a.localeCompare(b, 'fr')),
     }
   }, [data])
 
@@ -63,7 +83,7 @@ export function HomePage() {
           onToggle={toggle(types, setTypes)}
         />
         <FilterChips
-          label="Origine"
+          label="Influence"
           options={originOptions}
           selected={origins}
           onToggle={toggle(origins, setOrigins)}
