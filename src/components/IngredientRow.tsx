@@ -28,8 +28,15 @@ export function IngredientRow({ line, portions, dimmed }: Props) {
             </span>
           )}
         </p>
-        {line.comment && (
-          <p className="text-sm text-muted">{line.comment}</p>
+        {(ing?.comment || line.comment) && (
+          <div className="space-y-0.5">
+            {ing?.comment && (
+              <p className="text-sm text-muted">{ing.comment}</p>
+            )}
+            {line.comment && (
+              <p className="text-sm text-muted">{line.comment}</p>
+            )}
+          </div>
         )}
       </div>
 
