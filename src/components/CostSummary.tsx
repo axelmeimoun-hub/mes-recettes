@@ -15,7 +15,7 @@ export function CostSummary({ total, perPortion, portionLabel }: Props) {
         <p className="text-xs font-semibold uppercase tracking-wide text-muted">
           Coût total
         </p>
-        <p className="tabular mt-1 font-display text-3xl font-semibold sm:text-4xl">
+        <p className="tabular mt-1 font-display text-lg font-semibold sm:text-xl">
           {formatPrice(total)}
         </p>
       </div>
@@ -23,7 +23,7 @@ export function CostSummary({ total, perPortion, portionLabel }: Props) {
         <p className="text-xs font-semibold uppercase tracking-wide text-terracotta">
           Par {unit}
         </p>
-        <p className="tabular mt-1 font-display text-3xl font-semibold text-terracotta sm:text-4xl">
+        <p className="tabular mt-1 font-display text-lg font-semibold text-terracotta sm:text-xl">
           {formatPrice(perPortion)}
         </p>
       </div>
