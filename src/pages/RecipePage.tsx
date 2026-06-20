@@ -124,19 +124,21 @@ export function RecipePage() {
         </div>
       </header>
 
-      {/* Portions + coûts */}
-      <section className="space-y-4 rounded-xl2 border border-line bg-surface p-4 sm:p-5">
+      {/* Sélecteur de portions (recalcule quantités ET coûts) */}
+      <section>
         <PortionSelector
           value={portions}
           label={data.portion_label}
           onChange={setPortions}
         />
-        <CostSummary
-          total={total}
-          perPortion={perPortion}
-          portionLabel={data.portion_label}
-        />
       </section>
+
+      {/* Coûts */}
+      <CostSummary
+        total={total}
+        perPortion={perPortion}
+        portionLabel={data.portion_label}
+      />
 
       {/* Ingrédients */}
       <section className="space-y-3">
