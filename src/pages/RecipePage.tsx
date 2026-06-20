@@ -136,13 +136,16 @@ export function RecipePage() {
             </label>
           )}
         </div>
-        <div className="space-y-5">
+        <div className="space-y-4">
           {groups.map((group) => (
-            <div key={group.type}>
-              <h3 className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted">
+            <div
+              key={group.type}
+              className="overflow-hidden rounded-xl2 border border-line"
+            >
+              <h3 className="border-b border-line bg-surface px-4 py-2 text-xs font-semibold uppercase tracking-wide text-muted">
                 {group.type}
               </h3>
-              <ul className="divide-y divide-line">
+              <ul className="divide-y divide-line px-4">
                 {group.items.map((line) => (
                   <IngredientRow
                     key={line.id}
