@@ -37,6 +37,19 @@ export function RecipePage() {
     [lines, portions, includeOptional],
   )
 
+  // Regroupe les ingrédients par type. Les groupes sont ordonnés selon leur
+  // première apparition (= le plus petit sort_order), les lignes restent triées.
+  const groups = useMemo(() => {
+    const map = new Map<string, typeof lines>()
+    for (const line of lines) {
+      const key = line.ingredients?.type ?? 'Autres'
+      const arr = map.get(key)
+      if (arr) arr.push(line)
+      else map.set(key, [line])
+    }
+    return [...map.entries()].map(([type, items]) => ({ type, items }))
+  }, [lines])
+
   const steps = useMemo(() => splitSteps(data?.prep_steps ?? null), [data])
   const hasOptional = lines.some((l) => l.optional)
 
@@ -123,16 +136,25 @@ export function RecipePage() {
             </label>
           )}
         </div>
-        <ul className="divide-y divide-line">
-          {lines.map((line) => (
-            <IngredientRow
-              key={line.id}
-              line={line}
-              portions={portions}
-              dimmed={line.optional && !includeOptional}
-            />
+        <div className="space-y-5">
+          {groups.map((group) => (
+            <div key={group.type}>
+              <h3 className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted">
+                {group.type}
+              </h3>
+              <ul className="divide-y divide-line">
+                {group.items.map((line) => (
+                  <IngredientRow
+                    key={line.id}
+                    line={line}
+                    portions={portions}
+                    dimmed={line.optional && !includeOptional}
+                  />
+                ))}
+              </ul>
+            </div>
           ))}
-        </ul>
+        </div>
       </section>
 
       {/* Préparation */}
