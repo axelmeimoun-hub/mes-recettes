@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---- Identité visuelle : tokens couleurs (RGB pour <alpha-value>) ---- */
+:root {
+  --c-cream: 250 247 240; /* fond crème chaud */
+  --c-surface: 255 253 248; /* cartes */
+  --c-ink: 28 25 23; /* texte principal */
+  --c-muted: 120 113 108; /* texte secondaire */
+  --c-terracotta: 192 86 53; /* accent chaud */
+  --c-olive: 107 114 70; /* accent secondaire */
+  --c-line: 233 226 214; /* bordures */
+}
+
+.dark {
+  --c-cream: 24 22 20; /* fond sombre chaud */
+  --c-surface: 35 32 29;
+  --c-ink: 245 240 232;
+  --c-muted: 168 160 150;
+  --c-terracotta: 224 122 88;
+  --c-olive: 154 162 110;
+  --c-line: 58 53 48;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  @apply bg-cream text-ink font-sans antialiased;
+  margin: 0;
+  min-height: 100dvh;
+}
+
+/* Chiffres tabulaires pour aligner quantités et prix */
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Cibles tactiles confortables */
+@media (hover: none) {
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
