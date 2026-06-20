@@ -88,10 +88,10 @@ export function RecipePage() {
         ← Le carnet
       </Link>
 
-      {/* En-tête */}
-      <header className="space-y-4">
+      {/* En-tête : texte à gauche, image à droite (empilé sur mobile) */}
+      <header className="grid gap-6 md:grid-cols-2 md:items-center">
         {data.image_url && (
-          <div className="aspect-[16/9] overflow-hidden rounded-xl2 border border-line bg-line">
+          <div className="order-first aspect-[4/3] overflow-hidden rounded-xl2 border border-line bg-line md:order-last md:aspect-square">
             <img
               src={data.image_url}
               alt={data.name}
@@ -108,6 +108,9 @@ export function RecipePage() {
             <Tag muted>{data.origin}</Tag>
             {data.category && <Tag muted>{data.category}</Tag>}
           </div>
+          {data.description && (
+            <p className="leading-relaxed text-muted">{data.description}</p>
+          )}
           {data.source_url && (
             <a
               href={data.source_url}
