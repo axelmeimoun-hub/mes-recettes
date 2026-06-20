@@ -7,6 +7,21 @@ import { CostSummary } from '../components/CostSummary'
 import { PrepSteps } from '../components/PrepSteps'
 import { costPerPortion, splitSteps, totalCost } from '../lib/format'
 
+// Picto par type d'ingrédient (valeurs de l'enum ingredient_type).
+const TYPE_ICONS: Record<string, string> = {
+  Liquide: '💧',
+  Viande: '🥩',
+  Poisson: '🐟',
+  'Épices et herbes': '🌿',
+  Légumes: '🥦',
+  Sauce: '🥫',
+  'Produits laitiers': '🧀',
+  'Aliment de base': '🌾',
+  Fruits: '🍎',
+  Tartinade: '🍯',
+  'Fruits de mer': '🦐',
+}
+
 export function RecipePage() {
   const { id } = useParams()
   const recipeId = id ? parseInt(id, 10) : null
@@ -136,13 +151,16 @@ export function RecipePage() {
             </label>
           )}
         </div>
-        <div className="space-y-4">
+        <div className="space-y-8">
           {groups.map((group) => (
             <div
               key={group.type}
               className="overflow-hidden rounded-xl2 border border-line"
             >
-              <h3 className="border-b border-line bg-surface px-4 py-2 text-xs font-semibold uppercase tracking-wide text-muted">
+              <h3 className="flex items-center gap-2 border-b border-line bg-surface px-4 py-2 text-xs font-semibold uppercase tracking-wide text-muted">
+                <span aria-hidden className="text-sm">
+                  {TYPE_ICONS[group.type] ?? '🍽️'}
+                </span>
                 {group.type}
               </h3>
               <ul className="divide-y divide-line px-4">
