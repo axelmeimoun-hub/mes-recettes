@@ -10,8 +10,8 @@ interface Props {
 export function CostSummary({ total, perPortion, portionLabel }: Props) {
   const unit = portionLabel.replace(/s$/, '')
   return (
-    <div className="grid grid-cols-2 gap-3">
-      <div className="rounded-xl2 border border-line bg-surface p-4">
+    <div className="flex w-fit gap-3">
+      <div className="rounded-xl2 border border-line bg-surface px-4 py-3">
         <p className="text-xs font-semibold uppercase tracking-wide text-muted">
           Coût total
         </p>
@@ -19,7 +19,7 @@ export function CostSummary({ total, perPortion, portionLabel }: Props) {
           {formatPrice(total)}
         </p>
       </div>
-      <div className="rounded-xl2 border border-line bg-terracotta/10 p-4">
+      <div className="rounded-xl2 border border-line bg-terracotta/10 px-4 py-3">
         <p className="text-xs font-semibold uppercase tracking-wide text-terracotta">
           Par {unit}
         </p>
