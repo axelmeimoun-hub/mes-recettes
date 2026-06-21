@@ -1,5 +1,6 @@
 import type { RecipeIngredient } from '../types/db'
 import { formatPrice, formatQuantity, lineCost, lineQuantity } from '../lib/format'
+import { typeIcon } from '../lib/typeIcons'
 
 interface Props {
   line: RecipeIngredient
@@ -15,11 +16,27 @@ export function IngredientRow({ line, portions, dimmed }: Props) {
   return (
     <li
       className={[
-        'flex items-baseline justify-between gap-3 py-3',
+        'flex items-center gap-3 py-3',
         dimmed ? 'opacity-55' : '',
       ].join(' ')}
     >
-      <div className="min-w-0">
+      {/* Vignette : image de l'ingrédient, ou emoji du type en fallback */}
+      <div className="grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded-lg border border-line bg-surface">
+        {ing?.image_url ? (
+          <img
+            src={ing.image_url}
+            alt=""
+            loading="lazy"
+            className="h-full w-full object-contain p-1"
+          />
+        ) : (
+          <span aria-hidden className="text-xl">
+            {typeIcon(ing?.type)}
+          </span>
+        )}
+      </div>
+
+      <div className="min-w-0 flex-1">
         <p className="flex flex-wrap items-baseline gap-2">
           <span className="font-medium">{ing?.name ?? 'Ingrédient inconnu'}</span>
           {line.optional && (
