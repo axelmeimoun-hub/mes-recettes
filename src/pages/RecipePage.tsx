@@ -6,21 +6,7 @@ import { IngredientRow } from '../components/IngredientRow'
 import { CostSummary } from '../components/CostSummary'
 import { PrepSteps } from '../components/PrepSteps'
 import { costPerPortion, splitSteps, totalCost } from '../lib/format'
-
-// Picto par type d'ingrédient (valeurs de l'enum ingredient_type).
-const TYPE_ICONS: Record<string, string> = {
-  Liquide: '💧',
-  Viande: '🥩',
-  Poisson: '🐟',
-  'Épices et herbes': '🌿',
-  Légumes: '🥦',
-  Sauce: '🥫',
-  'Produits laitiers': '🧀',
-  'Aliment de base': '🌾',
-  Fruits: '🍎',
-  Tartinade: '🍯',
-  'Fruits de mer': '🦐',
-}
+import { typeIcon } from '../lib/typeIcons'
 
 export function RecipePage() {
   const { id } = useParams()
@@ -164,7 +150,7 @@ export function RecipePage() {
             >
               <h3 className="flex items-center gap-2 border-b border-line bg-surface px-4 py-2 text-xs font-semibold uppercase tracking-wide text-muted">
                 <span aria-hidden className="text-sm">
-                  {TYPE_ICONS[group.type] ?? '🍽️'}
+                  {typeIcon(group.type)}
                 </span>
                 {group.type}
               </h3>
