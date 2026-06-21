@@ -2,15 +2,17 @@ interface Props {
   steps: string[]
 }
 
-// Une ligne courte sans ponctuation de phrase est traitée comme un intertitre
-// (ex: "Café", "Crème", "Assemblage") plutôt que comme une étape numérotée.
+// Convention : une ligne qui commence par "#" est un intertitre.
+// Le "#" (et les espaces qui suivent) ne sont pas affichés.
 function isHeading(line: string): boolean {
-  const words = line.split(/\s+/).length
-  const hasSentencePunct = /[.!?:,;]/.test(line)
-  return words <= 2 && !hasSentencePunct
+  return line.trimStart().startsWith('#')
 }
 
-/** Étapes de préparation : intertitres en sous-titres, étapes numérotées. */
+function headingText(line: string): string {
+  return line.trimStart().replace(/^#+\s*/, '')
+}
+
+/** Étapes de préparation : intertitres (#) en sous-titres, étapes numérotées. */
 export function PrepSteps({ steps }: Props) {
   if (steps.length === 0) return null
 
@@ -24,7 +26,7 @@ export function PrepSteps({ steps }: Props) {
               key={i}
               className="pt-2 font-display text-lg font-semibold text-terracotta first:pt-0"
             >
-              {line}
+              {headingText(line)}
             </h3>
           )
         }
