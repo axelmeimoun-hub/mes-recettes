@@ -110,21 +110,21 @@ export function RecipePage() {
         </div>
       </header>
 
-      {/* Sélecteur de portions (recalcule quantités ET coûts) */}
-      <section>
+      {/* Portions (recalcule quantités ET coûts) + coûts à droite */}
+      <section className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
         <PortionSelector
           value={portions}
           label={data.portion_label}
           onChange={setPortions}
         />
+        <div className="sm:w-64">
+          <CostSummary
+            total={total}
+            perPortion={perPortion}
+            portionLabel={data.portion_label}
+          />
+        </div>
       </section>
-
-      {/* Coûts */}
-      <CostSummary
-        total={total}
-        perPortion={perPortion}
-        portionLabel={data.portion_label}
-      />
 
       {/* Ingrédients */}
       <section className="space-y-3">
@@ -169,9 +169,9 @@ export function RecipePage() {
         </div>
       </section>
 
-      {/* Préparation */}
+      {/* Préparation — panneau de fond pour la distinguer des ingrédients */}
       {steps.length > 0 && (
-        <section className="space-y-4">
+        <section className="space-y-4 rounded-xl2 bg-surface p-5 sm:p-6">
           <h2 className="font-display text-2xl font-semibold">Préparation</h2>
           <PrepSteps steps={steps} />
         </section>
