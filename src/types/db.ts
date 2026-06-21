@@ -50,6 +50,7 @@ export interface Ingredient {
   unit: UnitType
   price_per_unit: number
   comment: string | null
+  image_url: string | null
 }
 
 export interface RecipeIngredient {
