@@ -24,7 +24,7 @@ export function PrepSteps({ steps }: Props) {
           return (
             <h3
               key={i}
-              className="pt-2 font-display text-lg font-semibold text-terracotta first:pt-0"
+              className="pt-7 font-display text-lg font-semibold text-terracotta first:pt-0"
             >
               {headingText(line)}
             </h3>
