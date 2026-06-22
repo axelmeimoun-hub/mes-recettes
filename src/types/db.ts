@@ -51,6 +51,7 @@ export interface Ingredient {
   price_per_unit: number
   comment: string | null
   image_url: string | null
+  emoji: string | null
 }
 
 export interface RecipeIngredient {
