@@ -31,7 +31,7 @@ export function IngredientRow({ line, portions, dimmed }: Props) {
           />
         ) : (
           <span aria-hidden className="text-xl">
-            {typeIcon(ing?.type)}
+            {ing?.emoji || typeIcon(ing?.type)}
           </span>
         )}
       </div>
