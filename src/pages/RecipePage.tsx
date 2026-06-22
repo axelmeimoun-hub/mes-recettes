@@ -110,20 +110,18 @@ export function RecipePage() {
         </div>
       </header>
 
-      {/* Portions (recalcule quantités ET coûts) + coûts à droite */}
-      <section className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+      {/* Portions (recalcule quantités ET coûts) puis coûts en dessous */}
+      <section className="space-y-4">
         <PortionSelector
           value={portions}
           label={data.portion_label}
           onChange={setPortions}
         />
-        <div className="sm:w-64">
-          <CostSummary
-            total={total}
-            perPortion={perPortion}
-            portionLabel={data.portion_label}
-          />
-        </div>
+        <CostSummary
+          total={total}
+          perPortion={perPortion}
+          portionLabel={data.portion_label}
+        />
       </section>
 
       {/* Ingrédients */}
