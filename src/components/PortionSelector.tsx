@@ -7,6 +7,8 @@ interface Props {
 /** Sélecteur de portions : − / + et saisie directe. Borné à [1, 999]. */
 export function PortionSelector({ value, label, onChange }: Props) {
   const clamp = (n: number) => Math.min(999, Math.max(1, n))
+  // Singulier quand il n'y a qu'une portion (ex. "1 tarte" au lieu de "1 tartes").
+  const displayLabel = value === 1 ? label.replace(/s$/, '') : label
 
   return (
     <div className="flex items-center gap-3">
@@ -41,7 +43,7 @@ export function PortionSelector({ value, label, onChange }: Props) {
           +
         </button>
       </div>
-      <span className="text-lg text-muted">{label}</span>
+      <span className="text-lg text-muted">{displayLabel}</span>
     </div>
   )
 }
