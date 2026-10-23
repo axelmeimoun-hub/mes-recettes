@@ -18,20 +18,27 @@ export function FilterDropdown({
 }: Props) {
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
+  const btnRef = useRef<HTMLButtonElement>(null)
 
   // Ferme au clic extérieur et sur Échap.
   useEffect(() => {
     if (!open) return
-    const onDown = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
+    const onDown = (e: MouseEvent | TouchEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        // iOS/Android ne retirent pas le focus d'un bouton au tap sur une zone neutre.
+        btnRef.current?.blur()
+        setOpen(false)
+      }
     }
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setOpen(false)
     }
     document.addEventListener('mousedown', onDown)
+    document.addEventListener('touchstart', onDown)
     document.addEventListener('keydown', onKey)
     return () => {
       document.removeEventListener('mousedown', onDown)
+      document.removeEventListener('touchstart', onDown)
       document.removeEventListener('keydown', onKey)
     }
   }, [open])
@@ -42,15 +49,20 @@ export function FilterDropdown({
   return (
     <div ref={ref} className="relative min-w-0 flex-1 sm:flex-none">
       <button
+        ref={btnRef}
         type="button"
         aria-haspopup="listbox"
         aria-expanded={open}
-        onClick={() => setOpen((o) => !o)}
+        onClick={(e) => {
+          // Une fois fermé, le bouton ne doit pas rester « actif » (focus / survol collant au tactile).
+          if (open) e.currentTarget.blur()
+          setOpen((o) => !o)
+        }}
         className={[
-          'flex w-full items-center justify-between gap-3 rounded-full border px-4 py-2.5 text-sm transition-colors sm:min-w-[11rem]',
+          'flex w-full items-center justify-between gap-3 rounded-full border px-4 py-2.5 text-sm transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-terracotta/30 sm:min-w-[11rem]',
           count
             ? 'border-terracotta bg-terracotta/10 text-ink'
-            : 'border-line bg-surface text-ink hover:border-terracotta',
+            : 'border-line bg-surface text-ink [@media(hover:hover)]:hover:border-terracotta',
         ].join(' ')}
       >
         <span className="truncate">
