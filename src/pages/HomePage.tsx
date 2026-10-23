@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { useRecipes } from '../hooks/useRecipes'
 import { RecipeCard } from '../components/RecipeCard'
 import { SearchBar } from '../components/SearchBar'
-import { FilterChips } from '../components/FilterChips'
+import { FilterDropdown } from '../components/FilterDropdown'
 
 // Ordre d'affichage souhaité pour les types (les autres suivent en alphabétique).
 const TYPE_ORDER = [
@@ -66,18 +66,20 @@ export function HomePage() {
     <div className="space-y-6">
       <SearchBar value={query} onChange={setQuery} />
 
-      <div className="space-y-4">
-        <FilterChips
+      <div className="flex flex-wrap gap-3">
+        <FilterDropdown
           label="Type"
           options={typeOptions}
           selected={types}
           onToggle={toggle(types, setTypes)}
+          onClear={() => setTypes(new Set())}
         />
-        <FilterChips
+        <FilterDropdown
           label="Influence"
           options={originOptions}
           selected={origins}
           onToggle={toggle(origins, setOrigins)}
+          onClear={() => setOrigins(new Set())}
         />
       </div>
 
