@@ -64,15 +64,6 @@ export function HomePage() {
 
   return (
     <div className="space-y-6">
-      <div className="space-y-1">
-        <h1 className="font-display text-3xl font-semibold tracking-tight sm:text-4xl">
-          Le carnet
-        </h1>
-        <p className="text-muted">
-          Choisis une recette, ajuste les portions, vois le coût en direct.
-        </p>
-      </div>
-
       <SearchBar value={query} onChange={setQuery} />
 
       <div className="space-y-4">
