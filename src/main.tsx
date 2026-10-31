@@ -5,6 +5,7 @@ import './index.css'
 import { App } from './App'
 import { HomePage } from './pages/HomePage'
 import { RecipePage } from './pages/RecipePage'
+import { ShoppingListPage } from './pages/ShoppingListPage'
 
 // Mode sombre : applique la préférence stockée ou système avant le rendu.
 const stored = localStorage.getItem('theme')
@@ -20,6 +21,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route element={<App />}>
           <Route index element={<HomePage />} />
           <Route path="recette/:id" element={<RecipePage />} />
+          <Route path="courses" element={<ShoppingListPage />} />
         </Route>
       </Routes>
     </HashRouter>
