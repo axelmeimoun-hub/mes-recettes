@@ -12,7 +12,18 @@ export function App() {
               Mes recettes
             </span>
           </Link>
-          <ThemeToggle />
+          <div className="flex items-center gap-2">
+            <Link
+              to="/courses"
+              aria-label="Liste de courses"
+              className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-2.5 text-sm font-semibold transition-colors [@media(hover:hover)]:hover:border-terracotta"
+            >
+              🛒
+              <span className="hidden min-[520px]:inline">Liste de courses</span>
+              <span className="min-[520px]:hidden">Courses</span>
+            </Link>
+            <ThemeToggle />
+          </div>
         </div>
       </header>
 
