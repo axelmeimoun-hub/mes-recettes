@@ -1,5 +1,4 @@
 import { useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { useRecipes } from '../hooks/useRecipes'
 import { RecipeCard } from '../components/RecipeCard'
 import { SearchBar } from '../components/SearchBar'
@@ -65,23 +64,6 @@ export function HomePage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-4 rounded-xl2 border border-line bg-surface px-5 py-4">
-        <div>
-          <h2 className="font-display text-xl font-semibold">
-            🛒 Préparer mes courses
-          </h2>
-          <p className="mt-0.5 text-sm text-muted">
-            Choisis tes recettes, ajuste les portions, exporte la liste.
-          </p>
-        </div>
-        <Link
-          to="/courses"
-          className="rounded-full border border-terracotta bg-terracotta px-4 py-2.5 text-sm font-semibold text-cream transition-opacity hover:opacity-90"
-        >
-          Faire ma liste de courses →
-        </Link>
-      </div>
-
       <SearchBar value={query} onChange={setQuery} />
 
       <div className="flex flex-wrap gap-3">
