@@ -126,7 +126,7 @@ export function HomePage() {
           role="switch"
           aria-checked={grouped}
           onClick={() => setGrouped((g) => !g)}
-          className="flex items-center gap-2.5 rounded-full border border-line bg-surface px-4 py-2.5 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-terracotta/30"
+          className="flex w-full items-center gap-2.5 rounded-full border border-line bg-surface px-4 py-2.5 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-terracotta/30 sm:w-auto"
         >
           <span
             className={[
