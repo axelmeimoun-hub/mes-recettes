@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useRecipes } from '../hooks/useRecipes'
 import { RecipeCard } from '../components/RecipeCard'
 import { SearchBar } from '../components/SearchBar'
@@ -24,11 +24,44 @@ function byTypeOrder(a: string, b: string): number {
   return ia - ib
 }
 
+const GROUP_LABELS: Record<string, string> = {
+  entrée: 'Entrées',
+  plat: 'Plats',
+  dessert: 'Desserts',
+  sauce: 'Sauces',
+  apéritif: 'Apéritifs',
+  cocktail: 'Cocktails',
+  boisson: 'Boissons',
+}
+
+function groupLabel(type: string): string {
+  return GROUP_LABELS[type] ?? type.charAt(0).toUpperCase() + type.slice(1)
+}
+
+const GROUP_KEY = 'group-by-type'
+
+function loadGrouped(): boolean {
+  try {
+    return localStorage.getItem(GROUP_KEY) === '1'
+  } catch {
+    return false
+  }
+}
+
 export function HomePage() {
   const { data, loading, error } = useRecipes()
   const [query, setQuery] = useState('')
   const [types, setTypes] = useState<Set<string>>(new Set())
   const [origins, setOrigins] = useState<Set<string>>(new Set())
+  const [grouped, setGrouped] = useState(loadGrouped)
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(GROUP_KEY, grouped ? '1' : '0')
+    } catch {
+      /* stockage indisponible : le choix reste en mémoire */
+    }
+  }, [grouped])
 
   // Options construites à partir des valeurs réellement présentes.
   const { typeOptions, originOptions } = useMemo(() => {
@@ -53,6 +86,13 @@ export function HomePage() {
       return true
     })
   }, [data, query, types, origins])
+
+  // Blocs par type, dans l'ordre entrée → plat → dessert (les autres suivent).
+  const groups = useMemo(() => {
+    const byType = new Map<string, typeof filtered>()
+    for (const r of filtered) byType.set(r.type, [...(byType.get(r.type) ?? []), r])
+    return [...byType.entries()].sort(([a], [b]) => byTypeOrder(a, b))
+  }, [filtered])
 
   const toggle = (set: Set<string>, setter: (s: Set<string>) => void) => (
     value: string,
@@ -81,6 +121,28 @@ export function HomePage() {
           onToggle={toggle(origins, setOrigins)}
           onClear={() => setOrigins(new Set())}
         />
+        <button
+          type="button"
+          role="switch"
+          aria-checked={grouped}
+          onClick={() => setGrouped((g) => !g)}
+          className="flex items-center gap-2.5 rounded-full border border-line bg-surface px-4 py-2.5 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-terracotta/30"
+        >
+          <span
+            className={[
+              'relative h-[1.4rem] w-[2.4rem] shrink-0 rounded-full transition-colors',
+              grouped ? 'bg-terracotta' : 'bg-line',
+            ].join(' ')}
+          >
+            <span
+              className={[
+                'absolute left-[0.15rem] top-[0.15rem] h-[1.1rem] w-[1.1rem] rounded-full bg-surface shadow transition-transform',
+                grouped ? 'translate-x-4' : '',
+              ].join(' ')}
+            />
+          </span>
+          Regrouper par type
+        </button>
       </div>
 
       {loading && <p className="py-12 text-center text-muted">Chargement…</p>}
@@ -101,11 +163,31 @@ export function HomePage() {
               Aucune recette ne correspond.
             </p>
           ) : (
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
-              {filtered.map((r) => (
-                <RecipeCard key={r.id} recipe={r} />
-              ))}
-            </div>
+            grouped ? (
+              <div className="space-y-8">
+                {groups.map(([type, items]) => (
+                  <section key={type} aria-label={groupLabel(type)}>
+                    <h2 className="sticky top-[4.3rem] z-10 -mx-4 mb-3 flex items-baseline gap-2 bg-cream/90 px-4 py-2 font-display text-2xl font-semibold backdrop-blur sm:-mx-6 sm:px-6">
+                      {groupLabel(type)}
+                      <span className="font-sans text-sm font-normal text-muted">
+                        {items.length}
+                      </span>
+                    </h2>
+                    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
+                      {items.map((r) => (
+                        <RecipeCard key={r.id} recipe={r} />
+                      ))}
+                    </div>
+                  </section>
+                ))}
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
+                {filtered.map((r) => (
+                  <RecipeCard key={r.id} recipe={r} />
+                ))}
+              </div>
+            )
           )}
         </>
       )}
