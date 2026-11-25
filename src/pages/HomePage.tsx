@@ -164,7 +164,7 @@ export function HomePage() {
             </p>
           ) : (
             grouped ? (
-              <div className="space-y-8">
+              <div className="space-y-14">
                 {groups.map(([type, items]) => (
                   <section key={type} aria-label={groupLabel(type)}>
                     <h2 className="sticky top-[4.3rem] z-10 -mx-4 mb-3 flex items-baseline gap-2 bg-cream/90 px-4 py-2 font-display text-2xl font-semibold backdrop-blur sm:-mx-6 sm:px-6">
